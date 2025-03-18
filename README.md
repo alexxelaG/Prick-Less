@@ -3,7 +3,7 @@ Because nobody likes PRICKS
 
 
 
-# Non-Invasive Glucose Monitoring System
+## Non-Invasive Glucose Monitoring System
 
 A cutting-edge project aimed at developing a non-invasive, AI-assisted device to monitor blood glucose levels painlessly. This system leverages optical sensing with a photoresistor and LED, combined with machine learning to estimate glucose levels and provide actionable lifestyle insights.
 
@@ -16,12 +16,6 @@ A cutting-edge project aimed at developing a non-invasive, AI-assisted device to
 - [Software Components](#software-components)
 - [Design & Methodology](#design--methodology)
 - [Setup & Installation](#setup--installation)
-- [Usage](#usage)
-- [Testing and Calibration](#testing-and-calibration)
-- [Regulatory and Ethical Considerations](#regulatory-and-ethical-considerations)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
 
 ## Overview
 
