@@ -16,6 +16,7 @@ A cutting-edge project aimed at developing a non-invasive, AI-assisted device to
 - [Software Components](#software-components)
 - [Design & Methodology](#design--methodology)
 - [Setup & Installation](#setup--installation)
+- [Research](#research)
 
 ## Overview
 
@@ -87,13 +88,24 @@ The system design is based on a non-invasive optical measurement technique:
    - Connect the signal conditioning circuit and ADC to the microcontroller.
 2. **Power Supply:**
    - Ensure a stable power source is provided, either through batteries or a direct power supply.
-3. **Calibration:**
-   - Follow the calibration procedure outlined in the [Calibration Guide](docs/calibration.md) to align sensor readings with reference glucose measurements.
+
 
 ### Software Setup
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/non-invasive-glucose-monitor.git
-   cd non-invasive-glucose-monitor
+   git clone https://github.com/yourusername/Prick-Less.git
+   cd Prick-Less
+   
+
+### Research
+
+Research that is helping drive this project:
+
+
+Saputra, Dika Ari, and J. Rajes Khana. "Design and Development of Esp32-Based Non-Invasive Blood Sugar Level Measurement Equipment." Proceedings of the 3rd International Seminar and Call for Paper (ISCP) UTA'45 Jakarta, 2022, pp. 381-385.
+
+Wu, Juncen, et al. "A New Generation of Sensors for Non-Invasive Blood Glucose Monitoring." American Journal of Translational Research, vol. 15, no. 6, 15 June 2023, pp. 3825–3837.
+
+Alam, Iftekar, et al. "Design and Development of a Non-invasive Opto-Electronic Sensor for Blood Glucose Monitoring Using a Visible Light Source." Cureus, vol. 16, no. 5, 21 May 2024, e60745, doi:10.7759/cureus.60745.
 
