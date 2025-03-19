@@ -1,0 +1,15 @@
+/* GlucoseDisplay.css */
+.glucose-display {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    min-width: 200px;
+}
+
+.glucose-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
