@@ -1,7 +1,6 @@
 # Prick-Less
+
 Because nobody likes PRICKS
-
-
 
 ## Non-Invasive Glucose Monitoring System
 
@@ -25,6 +24,7 @@ The Non-Invasive Glucose Monitoring System is designed to offer a pain-free alte
 ## Background
 
 Traditional glucose monitoring methods are invasive and can be particularly challenging for elderly patients and those with chronic conditions like diabetes. This project is driven by the need for a non-invasive solution that:
+
 - Reduces discomfort and pain associated with finger pricking or implanting sensors.
 - Provides continuous, real-time monitoring of blood glucose levels.
 - Integrates actionable insights based on lifestyle data to better manage diabetes.
@@ -70,6 +70,7 @@ Traditional glucose monitoring methods are invasive and can be particularly chal
 ## Design & Methodology
 
 The system design is based on a non-invasive optical measurement technique:
+
 1. **Optical Sensing:**
    An LED light shines through the finger while the photoresistor on the opposite side measures light attenuation. Variations in light absorption are influenced by glucose concentration in the interstitial fluid.
 2. **Data Processing:**
@@ -89,19 +90,19 @@ The system design is based on a non-invasive optical measurement technique:
 2. **Power Supply:**
    - Ensure a stable power source is provided, either through batteries or a direct power supply.
 
-
 ### Software Setup
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/yourusername/Prick-Less.git
    cd Prick-Less
-   
+
+   ```
 
 ### Research
 
 Research that is helping drive this project:
-
 
 Saputra, Dika Ari, and J. Rajes Khana. "Design and Development of Esp32-Based Non-Invasive Blood Sugar Level Measurement Equipment." Proceedings of the 3rd International Seminar and Call for Paper (ISCP) UTA'45 Jakarta, 2022, pp. 381-385.
 
@@ -109,3 +110,10 @@ Wu, Juncen, et al. "A New Generation of Sensors for Non-Invasive Blood Glucose M
 
 Alam, Iftekar, et al. "Design and Development of a Non-invasive Opto-Electronic Sensor for Blood Glucose Monitoring Using a Visible Light Source." Cureus, vol. 16, no. 5, 21 May 2024, e60745, doi:10.7759/cureus.60745.
 
+Hina, Aminah, and Wala Saadeh. “Noninvasive Blood Glucose Monitoring Systems Using Near‑Infrared Technology—A Review.” Sensors, vol. 22, no. 13, 27 June 2022, p. 4855, https://doi.org/10.3390/s22134855.
+
+Saleem, Muhammad Yasir, and Muhammad Ammar. Dataset of Photoplethysmography Signals Collected from a Pulse Sensor to Measure Blood Glucose Level. Mendeley Data, vol. 1, 2022, https://data.mendeley.com/datasets/37pm7jk7jn/1.
+
+Mosaddequr, Kazi, and Tanzilur Rahman. "A Novel Multipurpose Device for Dataset Creation and On-Device Immediate Estimation of Blood Glucose Level from Reflection PPG." Heliyon, vol. 9, no. 9, 2023, e19553.
+
+Satter, Shama, et al. "EMD-Based Noninvasive Blood Glucose Estimation from PPG Signals Using Machine Learning Algorithms." Applied Sciences, vol. 14, no. 4, 2024, p. 1406.
