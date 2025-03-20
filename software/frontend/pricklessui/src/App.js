@@ -1,5 +1,8 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import GlucoseDisplay from './GlucoseDisplay';
+import Navbar from './Components/Navbar';
+import GlucoseDisplay from './Components/GlucoseDisplay';
+import Settings from './Pages/Settings';  
 import './App.css';
 
 function App() {
@@ -13,21 +16,29 @@ function App() {
       setGlucose(simulatedGlucose);
     };
 
-    fetchGlucose(); // initial fetch
+    fetchGlucose(); // Initial fetch
     const intervalId = setInterval(fetchGlucose, 5000);
 
     return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Prickless Glucose Monitor</h1>
-      </header>
-      <main>
-        <GlucoseDisplay glucose={glucose} />
-      </main>
-    </div>
+    <Router>  {/* Wrap everything in Router */}
+      <Navbar />
+      <Routes>  {/* Define routes here */}
+        <Route path="/" element={
+          <div className="App">
+            <header className="App-header">
+              <h1>Prickless Glucose Monitor</h1>
+            </header>
+            <main>
+              <GlucoseDisplay glucose={glucose} />
+            </main>
+          </div>
+        } />
+        <Route path="/settings" element={<Settings />} />  {/* Route for Settings Page */}
+      </Routes>
+    </Router>
   );
 }
 
