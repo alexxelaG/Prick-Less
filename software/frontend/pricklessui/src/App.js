@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
 import React, { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar';
 import GlucoseDisplay from './Components/GlucoseDisplay';
@@ -23,9 +23,9 @@ function App() {
   }, []);
 
   return (
-    <Router>  {/* Wrap everything in Router */}
+    <Router>  
       <Navbar />
-      <Routes>  {/* Define routes here */}
+      <Routes>  {/* React Router v6+ uses Routes instead of Switch */}
         <Route path="/" element={
           <div className="App">
             <header className="App-header">
@@ -36,7 +36,7 @@ function App() {
             </main>
           </div>
         } />
-        <Route path="/settings" element={<Settings />} />  {/* Route for Settings Page */}
+        <Route path="/settings" element={<Settings />} />  
       </Routes>
     </Router>
   );
