@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './Dashboard.css';
-import { Line } from 'react-chartjs-2';
 
 function Dashboard({ userId }) {
   const [glucoseData, setGlucoseData] = useState([]);
@@ -73,10 +72,7 @@ function Dashboard({ userId }) {
         </div>
       </div>
 
-      {/* Glucose Trends Chart */}
-      <div className="chart-container">
-        <Line data={chartData} options={chartOptions} />
-      </div>
+
 
       {/* Real-Time Glucose Readings Table */}
       <div className="table-container">
