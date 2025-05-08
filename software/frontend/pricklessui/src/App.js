@@ -1,42 +1,65 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'; 
 import React, { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar';
-import GlucoseDisplay from './Components/GlucoseDisplay';
-import Settings from './Pages/Settings';  
+import Settings from './Pages/Settings'; 
+import Dashboard from './Pages/Dashboard';
+import AboutUs from './Pages/AboutUs';
+
 import './App.css';
+
+import heroImage from './assets/images/homepage-image.jpg';
+
+function Home() {
+  const navigate = useNavigate(); // Use the useNavigate hook here
+
+  const navigateToDashboard = () => {
+    navigate('/dashboard'); // Navigate to the dashboard route
+  };
+
+  return (
+    <div className="home">
+      <div className="hero-section">
+        <div className="hero-text">
+          <h1>Non-Invasive Glucose Monitor</h1>
+          <p>Track Smarter, Live Healthier.</p>
+          <button className="cta-button" onClick={navigateToDashboard}>
+            Start Your Journey
+          </button>
+        </div>
+        <div className="hero-image">
+          <img
+            src={heroImage}
+            alt="Non-Invasive Glucose Monitoring"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [glucose, setGlucose] = useState(null);
-  
-  // Simulate fetching glucose data every 5 seconds.
+
   useEffect(() => {
     const fetchGlucose = () => {
-      // Replace this with an API call to your glucose monitor backend.
       const simulatedGlucose = Math.floor(Math.random() * (180 - 70 + 1)) + 70;
       setGlucose(simulatedGlucose);
     };
 
-    fetchGlucose(); // Initial fetch
+    fetchGlucose();
     const intervalId = setInterval(fetchGlucose, 5000);
 
     return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <Router>  
+    <Router>
       <Navbar />
-      <Routes>  {/* React Router v6+ uses Routes instead of Switch */}
-        <Route path="/" element={
-          <div className="App">
-            <header className="App-header">
-              <h1>Prickless Glucose Monitor</h1>
-            </header>
-            <main>
-              <GlucoseDisplay glucose={glucose} />
-            </main>
-          </div>
-        } />
-        <Route path="/settings" element={<Settings />} />  
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard glucose={glucose} />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/about-us" element={<AboutUs />} />
       </Routes>
     </Router>
   );

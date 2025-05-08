@@ -15,6 +15,10 @@ function Settings() {
         localStorage.setItem("darkMode", JSON.stringify(darkMode));
     }, [darkMode]);
 
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
+
     return (
         <div className="settings-container">
             <h1>Settings</h1>
@@ -57,14 +61,9 @@ function Settings() {
             {/* Appearance & Accessibility */}
             <div className="settings-section">
                 <h2>Appearance & Accessibility</h2>
-                <label>
-                    <input 
-                        type="checkbox"
-                        checked={darkMode}
-                        onChange={() => setDarkMode(!darkMode)}    
-                    />
-                    Enable Dark Mode
-                </label>
+                <button onClick={toggleDarkMode}>
+                    {darkMode ? "Disable Dark Mode" : "Enable Dark Mode"}
+                </button>
             </div>
         </div>
     );

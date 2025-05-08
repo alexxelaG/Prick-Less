@@ -1,83 +1,45 @@
-/* Default Light Mode Styles */
-body {
-    background: white;
-    color: black;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* Dark Mode Styles */
 body.dark-mode {
-    background: #121212;
-    color: white;
+    background-color: #3d3a3a;
+    color: #ffffff;
 }
 
-/* Settings Container */
 .settings-container {
-    max-width: 600px;
-    margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
 }
 
-body.dark-mode .settings-container {
-    background: #1e1e1e;
-    border-color: #444;
-}
-
-/* Fix: Ensure Buttons Are Visible */
-button {
-    background: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-button:hover {
-    background: #0056b3;
-}
-
-/* Fix: Make Buttons Visible in Dark Mode */
-body.dark-mode button {
-    background: #007bff;
-    color: white;
-}
-
-body.dark-mode button:hover {
-    background: #0056b3;
-}
-
-/* Sections */
 .settings-section {
     margin-bottom: 20px;
-    padding: 15px;
-    border-bottom: 1px solid #ccc;
 }
 
 .settings-section h2 {
-    color: #333;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: 10px;
 }
 
-body.dark-mode .settings-section h2 {
-    color: #ddd;
-}
-
-/* Checkbox Styling */
-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.settings-section button {
+    margin-right: 10px;
+    padding: 10px 15px;
     font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
-input[type="checkbox"] {
-    transform: scale(1.2);
-    cursor: pointer;
+.settings-section button:hover {
+    background-color: #388e3c;
+}
+
+body.dark-mode .settings-section button {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .settings-section button:hover {
+    background-color: #555;
 }

@@ -2,13 +2,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #007bff;
+    background: #4caf50;
     color:white;
     padding: 1rem 2rem;
 }
 
 .navbar h1{
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .nav-links {
@@ -22,6 +22,7 @@
     text-decoration: none;
     font-size: 1rem;
 }
+
 
 .nav-links li a:hover {
     text-decoration: underline;

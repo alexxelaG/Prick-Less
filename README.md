@@ -82,6 +82,36 @@ The system design is based on a non-invasive optical measurement technique:
 
 ## Setup & Installation
 
+1. **Dependencies:**
+
+- Setup Node.js/Express Server Dependencies
+
+```
+npm install express cors body-parser dotenv
+npm install --save-dev nodemon
+```
+
+- MQTT client for real-time readings from ESP-32
+
+```
+npm install mqtt
+```
+
+- MySQL dependencies
+
+```
+npm install mysql2
+```
+
+1. **Setup Backend**
+
+- MySQL database setup
+
+```
+create database glucose_monitor;
+use glucose_monitor;
+```
+
 ### Hardware Setup
 
 1. **Assemble the Device:**
