@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const { connectDB } = require('./config/db'); // Database connection
 const glucoseRoutes = require('./routes/glucoseRoutes'); // Glucose API routes
 const userRoutes = require('./routes/userRoutes'); // User API routes
+const { router: authRoutes } = require('./routes/authRoutes'); // Authentication routes
 const mqttClient = require('./mqtt/mqttClient'); // MQTT client for ESP32 readings
 
 // Load environment variables
@@ -30,11 +31,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 connectDB();
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/glucose', glucoseRoutes);
 app.use('/api/users', userRoutes);
 
-// Start the MQTT client
-mqttClient();
+// Start the MQTT client (if enabled)
+if (process.env.ENABLE_MQTT === 'true') {
+  mqttClient();
+} else {
+  console.log('MQTT client disabled');
+}
 
 // Start the server
 const PORT = process.env.PORT || 5000;

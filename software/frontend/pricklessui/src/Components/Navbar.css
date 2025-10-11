@@ -3,27 +3,95 @@
     justify-content: space-between;
     align-items: center;
     background: #4caf50;
-    color:white;
+    color: white;
     padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar h1{
+.navbar h1 {
     font-size: 2rem;
+    margin: 0;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
     gap: 1.5rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links li a {
     color: white;
     text-decoration: none;
     font-size: 1rem;
+    transition: opacity 0.3s ease;
 }
 
-
 .nav-links li a:hover {
+    opacity: 0.8;
     text-decoration: underline;
+}
+
+.login-link {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.login-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    text-decoration: none !important;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-name {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.logout-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+}
+
+.logout-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .navbar h1 {
+        font-size: 1.5rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .user-menu {
+        flex-direction: column;
+        gap: 8px;
+    }
 }
