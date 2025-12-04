@@ -43,6 +43,10 @@ body {
   max-width: 1200px;
   width: 100%;
   padding: 20px;
+  background: rgba(232, 229, 229, 0.65);
+  backdrop-filter: blur(8px);
+  border-radius: 40px;
+  
 }
 
 .hero-text {
@@ -80,4 +84,6 @@ body {
   max-width: 100%;
   height: auto;
   border-radius: 10px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%);
 }
+
