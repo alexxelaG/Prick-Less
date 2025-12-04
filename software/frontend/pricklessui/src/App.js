@@ -25,11 +25,13 @@ function Home({ user }) {
     <div className="home">
       <div className="hero-section">
         <div className="hero-text">
+          <center>
           <h1>Non-Invasive Glucose Monitor</h1>
           <p>Track Smarter, Live Healthier.</p>
           <button className="cta-button" onClick={navigateToDashboard}>
             {user ? 'Go to Dashboard' : 'Start Your Journey'}
           </button>
+          </center>
           {user && (
             <p className="welcome-message">
               Welcome back, {user.name}!
