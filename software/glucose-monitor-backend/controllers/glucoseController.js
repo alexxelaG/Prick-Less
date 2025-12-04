@@ -10,7 +10,6 @@ const getReadings = (req, res) => {
       r.id,
       r.timestamp,
       r.glucose_mgdl,
-      r.prediction_quality,
       r.features,
       r.device_id,
       r.is_predicted,
@@ -47,7 +46,6 @@ const getLatestReading = (req, res) => {
       r.id,
       r.timestamp,
       r.glucose_mgdl,
-      r.prediction_quality,
       r.features,
       r.device_id,
       r.is_predicted,
@@ -85,9 +83,7 @@ const getTrendData = (req, res) => {
   const query = `
     SELECT 
       timestamp,
-      glucose_mgdl,
-      prediction_quality,
-      JSON_EXTRACT(features, '$.hr') as heart_rate
+      glucose_mgdl
     FROM readings 
     WHERE user_id = ? 
       AND timestamp >= DATE_SUB(NOW(), INTERVAL ? HOUR)
@@ -106,17 +102,16 @@ const getTrendData = (req, res) => {
 
 // Add new reading (for testing)
 const addReading = (req, res) => {
-  const { userId, deviceId, features, glucoseLevel, segmentId } = req.body;
+  const { userId, features, glucoseLevel, segmentId } = req.body;
   
   const query = `
     INSERT INTO readings 
-    (user_id, device_id, timestamp, segment_id, features, glucose_mgdl, is_predicted) 
-    VALUES (?, ?, NOW(), ?, ?, ?, ?)
+    (user_id, timestamp, segment_id, features, glucose_mgdl, is_predicted) 
+    VALUES (?, NOW(), ?, ?, ?, ?)
   `;
   
   db.query(query, [
     userId, 
-    deviceId || 'ESP32_TEST', 
     segmentId || `test_${Date.now()}`,
     JSON.stringify(features),
     glucoseLevel,
@@ -142,8 +137,7 @@ const getUserStats = (req, res) => {
       COUNT(*) as total_readings,
       AVG(glucose_mgdl) as avg_glucose,
       MIN(glucose_mgdl) as min_glucose,
-      MAX(glucose_mgdl) as max_glucose,
-      AVG(prediction_quality) as avg_quality
+      MAX(glucose_mgdl) as max_glucose
     FROM readings 
     WHERE user_id = ? AND glucose_mgdl IS NOT NULL
   `;

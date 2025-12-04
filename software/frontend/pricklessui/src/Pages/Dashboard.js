@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './Dashboard.css';
-import DeviceSelector from '../Components/DeviceSelector';
 
 function Dashboard({ userId, user, token }) {
   const [glucoseData, setGlucoseData] = useState([]);
   const [latestReading, setLatestReading] = useState(null);
-  const [userStats, setUserStats] = useState(null);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedDevice, setSelectedDevice] = useState(null);
 
   // Fetch glucose readings from the backend with authentication
-  const fetchGlucoseData = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     if (!userId || !token) {
       setError('Please log in to view your dashboard');
       setLoading(false);
@@ -24,21 +22,11 @@ function Dashboard({ userId, user, token }) {
         'Content-Type': 'application/json'
       };
 
-      let readingsUrl, latestUrl, statsUrl;
-
-      if (selectedDevice) {
-        // Use device-specific endpoints when a device is selected
-        readingsUrl = `http://localhost:3001/api/glucose/device/${selectedDevice}/readings?limit=10`;
-        latestUrl = `http://localhost:3001/api/glucose/device/${selectedDevice}/latest`;
-        statsUrl = `http://localhost:3001/api/glucose/device/${selectedDevice}/stats`;
-        console.log('Fetching data for device:', selectedDevice);
-      } else {
-        // Use user-based endpoints as fallback
-        readingsUrl = `http://localhost:3001/api/glucose/readings/${userId}?limit=10`;
-        latestUrl = `http://localhost:3001/api/glucose/latest/${userId}`;
-        statsUrl = `http://localhost:3001/api/glucose/stats/${userId}`;
-        console.log('Fetching data for user:', userId);
-      }
+      // Use user-based endpoints only
+      const readingsUrl = `http://localhost:3001/api/glucose/readings/${userId}?limit=10`;
+      const latestUrl = `http://localhost:3001/api/glucose/latest/${userId}`;
+      const statsUrl = `http://localhost:3001/api/glucose/stats/${userId}`;
+      console.log('Fetching data for user:', userId);
 
       // Fetch recent readings
       const readingsResponse = await fetch(readingsUrl, { headers });
@@ -53,7 +41,7 @@ function Dashboard({ userId, user, token }) {
       const latestResponse = await fetch(latestUrl, { headers });
       
       if (!latestResponse.ok) {
-        // If no readings found for this device, handle gracefully
+        // If no readings found for this user, handle gracefully
         if (latestResponse.status === 404) {
           setLatestReading(null);
         } else {
@@ -71,10 +59,10 @@ function Dashboard({ userId, user, token }) {
         throw new Error('Failed to fetch statistics');
       }
       
-      const stats = await statsResponse.json();
+      const statsData = await statsResponse.json();
       
       setGlucoseData(readings);
-      setUserStats(stats);
+      setStats(statsData);
       setError(null);
       setLoading(false);
     } catch (error) {
@@ -90,26 +78,15 @@ function Dashboard({ userId, user, token }) {
       }
       setLoading(false);
     }
-  }, [userId, token, selectedDevice]);
+  }, [userId, token]);
 
   useEffect(() => {
-    fetchGlucoseData();
+    fetchData();
     
     // Refresh data every 30 seconds
-    const interval = setInterval(fetchGlucoseData, 30000);
+    const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
-  }, [fetchGlucoseData]);
-
-  // Add effect to refetch data when device changes
-  useEffect(() => {
-    if (selectedDevice) {
-      fetchGlucoseData();
-    }
-  }, [selectedDevice, fetchGlucoseData]);
-
-  const handleDeviceChange = (deviceId) => {
-    setSelectedDevice(deviceId);
-  };
+  }, [fetchData]);
 
   if (loading) {
     return (
@@ -184,13 +161,6 @@ function Dashboard({ userId, user, token }) {
     <div className="dashboard">
       <h2>Glucose Dashboard - {user?.name || latestReading?.user_name || 'User'}</h2>
 
-      {/* Device Selector */}
-      <DeviceSelector 
-        token={token} 
-        onDeviceChange={handleDeviceChange} 
-        currentUserId={userId}
-      />
-
       {/* Current Reading Display */}
       {latestReading && (
         <div className="current-reading">
@@ -201,9 +171,7 @@ function Dashboard({ userId, user, token }) {
               <span className="unit">mg/dL</span>
             </div>
             <div className="reading-info">
-              <p>Quality: {(parseFloat(latestReading.prediction_quality) * 100).toFixed(0)}%</p>
-              <p>Device: {latestReading.device_id}</p>
-              <p>Last Update: {new Date(latestReading.timestamp).toLocaleString()}</p>
+              <p>Time: {new Date(latestReading.timestamp).toLocaleTimeString()}</p>
             </div>
           </div>
         </div>
@@ -222,41 +190,10 @@ function Dashboard({ userId, user, token }) {
         </div>
         <div className="summary-box">
           <h3>Average</h3>
-          <p>{userStats ? parseFloat(userStats.avg_glucose).toFixed(1) : 'N/A'} mg/dL</p>
-          <small>{userStats?.total_readings || 0} readings</small>
-        </div>
-        <div className="summary-box">
-          <h3>Confidence Score</h3>
-          <p>{userStats ? (parseFloat(userStats.avg_quality) * 100).toFixed(0) : 'N/A'}%</p>
+          <p>{stats ? parseFloat(stats.avg_glucose).toFixed(1) : 'N/A'} mg/dL</p>
+          <small>{stats?.total_readings || 0} readings</small>
         </div>
       </div>
-
-      {/* PPG Features Display 
-      {latestReading?.features && (
-        <div className="ppg-features">
-          <h3>Latest PPG Analysis</h3>
-          <div className="features-grid">
-            <div className="feature">
-              <span>Heart Rate:</span>
-              <span>{latestReading.features.hr} BPM</span>
-            </div>
-            <div className="feature">
-              <span>PPG Mean:</span>
-              <span>{latestReading.features.mean?.toFixed(1)}</span>
-            </div>
-            <div className="feature">
-              <span>AC Component:</span>
-              <span>{latestReading.features.ac?.toFixed(1)}</span>
-            </div>
-            <div className="feature">
-              <span>Signal Quality:</span>
-              <span>{latestReading.features.snr?.toFixed(1)} dB</span>
-            </div>
-          </div>
-        </div>
-      )}
-      */}
-
 
       {/* Real-Time Glucose Readings Table */}
       <div className="table-container">
@@ -266,9 +203,6 @@ function Dashboard({ userId, user, token }) {
             <tr>
               <th>Timestamp</th>
               <th>Glucose Level</th>
-              <th>Heart Rate</th>
-              <th>Quality</th>
-              <th>Device</th>
             </tr>
           </thead>
           <tbody>
@@ -276,9 +210,6 @@ function Dashboard({ userId, user, token }) {
               <tr key={data.id || index}>
                 <td>{new Date(data.timestamp).toLocaleString()}</td>
                 <td>{parseFloat(data.glucose_mgdl).toFixed(1)} mg/dL</td>
-                <td>{data.features?.hr || 'N/A'} BPM</td>
-                <td>{(parseFloat(data.prediction_quality) * 100).toFixed(0)}%</td>
-                <td>{data.device_id}</td>
               </tr>
             ))}
           </tbody>

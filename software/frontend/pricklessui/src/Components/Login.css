@@ -140,6 +140,33 @@
   color: #45a049;
 }
 
+.admin-section {
+  margin: 15px 0 5px 0;
+  text-align: center;
+}
+
+.admin-bypass-button {
+  background: none;
+  color: #999;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-bypass-button:hover:not(:disabled) {
+  color: #666;
+  border-color: #ccc;
+}
+
+.admin-bypass-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .demo-info {
   margin-top: 20px;
   padding: 15px;

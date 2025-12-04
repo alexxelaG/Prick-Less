@@ -95,7 +95,3 @@ CREATE TABLE IF NOT EXISTS feedback (
 INSERT INTO users (username, email, password_hash) VALUES 
 ('demo_user', 'demo@prickless.com', '$2b$10$dummy.hash.for.testing'),
 ('test_patient', 'patient@example.com', '$2b$10$dummy.hash.for.testing');
-
-INSERT INTO devices (id, user_id, device_name, status) VALUES 
-('ESP32_001', 1, 'Demo Device', 'offline'),
-('ESP32_002', 2, 'Patient Monitor', 'offline');

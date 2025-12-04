@@ -102,6 +102,48 @@ function Login({ onLogin }) {
     setFormData({ name: '', email: '', password: '' });
   };
 
+  const handleAdminBypass = async () => {
+    setLoading(true);
+    setError('');
+    
+    const adminCredentials = {
+      email: 'john.doe@example.com',
+      password: 'password123'
+    };
+
+    try {
+      console.log('🔑 Using admin bypass...');
+      
+      const response = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminCredentials),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('✅ Admin login successful!');
+        // Store token and user info
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Call parent component's login handler
+        onLogin(data.user, data.token);
+      } else {
+        console.log('❌ Admin login failed:', data.error);
+        setError('Admin login failed: ' + (data.error || 'Authentication failed'));
+      }
+    } catch (error) {
+      console.error('🔴 Admin bypass connection error:', error);
+      setError('Connection error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -163,6 +205,17 @@ function Login({ onLogin }) {
             {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
           </button>
         </form>
+
+        <div className="admin-section">
+          <button 
+            type="button" 
+            className="admin-bypass-button"
+            onClick={handleAdminBypass}
+            disabled={loading}
+          >
+            Admin
+          </button>
+        </div>
 
         <div className="login-footer">
           <p>
