@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./config/db');
 require('dotenv').config();
+require('./mqttListener');
 
 const app = express();
 
@@ -52,13 +53,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Start the MQTT client (if enabled)
-if (process.env.ENABLE_MQTT === 'true') {
-  mqttClient();
-  console.log('✅ MQTT client enabled');
-} else {
-  console.log('🔌 MQTT client disabled');
-}
+// 🚫 REMOVE MQTT — NO MQTT ANYMORE
 
 // Start the server
 const PORT = process.env.PORT || 3001;
