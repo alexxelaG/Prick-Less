@@ -6,24 +6,23 @@ const {
   addReading, 
   getUserStats 
 } = require('../controllers/glucoseController');
-const { authenticateToken } = require('./authRoutes');
 const { db } = require('../config/db');
 
 const router = express.Router();
 
-// Get all readings for a user (protected)
-router.get('/readings/:userId', authenticateToken, getReadings);
+// Get all readings for a user (public access)
+router.get('/readings/:userId', getReadings);
 
-// Get latest reading for a user (protected)
-router.get('/latest/:userId', authenticateToken, getLatestReading);
+// Get latest reading for a user (public access)
+router.get('/latest/:userId', getLatestReading);
 
-// Get trend data for charts (protected)
-router.get('/trend/:userId', authenticateToken, getTrendData);
+// Get trend data for charts (public access)
+router.get('/trend/:userId', getTrendData);
 
-// Get user statistics (protected)
-router.get('/stats/:userId', authenticateToken, getUserStats);
+// Get user statistics (public access)
+router.get('/stats/:userId', getUserStats);
 
-// Add new reading (protected)
-router.post('/add', authenticateToken, addReading);
+// Add new reading (public access)
+router.post('/add', addReading);
 
 module.exports = router;

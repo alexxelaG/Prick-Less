@@ -7,7 +7,7 @@ function AboutUs() {
       <h1>About Us</h1>
       <div className="about-us-box">
         <p>
-          Prickless is a non-invasive, AI-assisted glucose monitoring system designed to offer a painless and accessible alternative to traditional blood glucose tracking methods. Unlike finger-prick meters or continuous glucose monitors (CGMs), this system uses photoplethysmography (PPG)—a light-based technique—to estimate glucose levels by analyzing how light is absorbed and scattered through a user’s fingertip.
+          Prick-Less is a simplified, non-invasive glucose monitoring system designed to offer an easy and accessible way to collect and visualize PPG sensor data. The system uses photoplethysmography (PPG)—a light-based technique—to collect sensor readings from fingertip sensors.
         </p>
         <p>
           The device is built around an ESP32 microcontroller, integrated with an infrared LED, photodiode sensor, and amplifier, which collects and transmits PPG signals wirelessly using the MQTT protocol.

@@ -25,32 +25,25 @@ ChartJS.register(
   Filler
 );
 
-function Dashboard({ userId, user, token }) {
+function Dashboard({ userId = 1 }) {
   const [glucoseData, setGlucoseData] = useState([]);
   const [latestReading, setLatestReading] = useState(null);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch glucose readings from the backend with authentication
+  // Fetch glucose readings from the backend without authentication
   const fetchData = useCallback(async () => {
-    if (!userId || !token) {
-      setError('Please log in to view your dashboard');
-      setLoading(false);
-      return;
-    }
-
     try {
       const headers = {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       };
 
-      // Use user-based endpoints only
-      const readingsUrl = `http://localhost:3001/api/glucose/readings/${userId}?limit=20`;
-      const latestUrl = `http://localhost:3001/api/glucose/latest/${userId}`;
-      const statsUrl = `http://localhost:3001/api/glucose/stats/${userId}`;
-      console.log('Fetching data for user:', userId);
+      // Use simple endpoints for user 1
+      const readingsUrl = `http://localhost:3001/api/glucose/readings/1?limit=20`;
+      const latestUrl = `http://localhost:3001/api/glucose/latest/1`;
+      const statsUrl = `http://localhost:3001/api/glucose/stats/1`;
+      console.log('Fetching data for user 1');
 
       // Fetch recent readings
       const readingsResponse = await fetch(readingsUrl, { headers });
@@ -92,17 +85,15 @@ function Dashboard({ userId, user, token }) {
     } catch (error) {
       console.error('Error fetching glucose data:', error);
       
-      // Check if it's an authentication error
-      if (error.message.includes('401') || error.message.includes('Unauthorized')) {
-        setError('Session expired. Please log in again.');
-      } else if (error.message.includes('Failed to fetch')) {
+      // Check if it's a connection error
+      if (error.message.includes('Failed to fetch')) {
         setError('Cannot connect to server. Please check if the backend is running.');
       } else {
         setError('Failed to load glucose data. Please try again.');
       }
       setLoading(false);
     }
-  }, [userId, token]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -138,7 +129,7 @@ function Dashboard({ userId, user, token }) {
   if (!glucoseData || glucoseData.length === 0) {
     return (
       <div className="dashboard">
-        <h2>Welcome to Your Glucose Dashboard, {user?.name}!</h2>
+        <h2>Welcome to Your Glucose Dashboard!</h2>
         <div className="no-data">
           <h3>🔗 Getting Started</h3>
           <p>No glucose readings found for your account yet.</p>
@@ -222,7 +213,7 @@ function Dashboard({ userId, user, token }) {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h1>Glucose Dashboard - {user?.name || 'User'}</h1>
+        <h1>Glucose Dashboard</h1>
         <div className="date-info">
           {new Date().toLocaleDateString()} | Last updated: {latestReading ? new Date(latestReading.timestamp).toLocaleTimeString() : 'N/A'}
         </div>
