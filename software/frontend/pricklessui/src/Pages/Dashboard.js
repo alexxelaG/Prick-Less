@@ -1,5 +1,29 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
 import './Dashboard.css';
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 function Dashboard({ userId, user, token }) {
   const [glucoseData, setGlucoseData] = useState([]);
@@ -23,7 +47,7 @@ function Dashboard({ userId, user, token }) {
       };
 
       // Use user-based endpoints only
-      const readingsUrl = `http://localhost:3001/api/glucose/readings/${userId}?limit=10`;
+      const readingsUrl = `http://localhost:3001/api/glucose/readings/${userId}?limit=20`;
       const latestUrl = `http://localhost:3001/api/glucose/latest/${userId}`;
       const statsUrl = `http://localhost:3001/api/glucose/stats/${userId}`;
       console.log('Fetching data for user:', userId);
@@ -120,9 +144,9 @@ function Dashboard({ userId, user, token }) {
           <p>No glucose readings found for your account yet.</p>
           <p>To see your glucose data:</p>
           <ul>
-            <li>✅ Connect your Prick-Less device</li>
-            <li>✅ Ensure your device is paired and transmitting</li>
-            <li>✅ Wait for initial readings to populate</li>
+            <li>Connect your Prick-Less device</li>
+            <li>Ensure your device is paired and transmitting</li>
+            <li>Wait for initial readings to populate</li>
           </ul>
           <p><strong>Test Account:</strong> Try logging in with <code>john.doe@example.com</code> (password: <code>password123</code>) to see sample data.</p>
         </div>
@@ -151,69 +175,111 @@ function Dashboard({ userId, user, token }) {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Glucose Trend',
+        font: {
+          size: 16,
+          weight: 'bold'
+        },
+        padding: 20
+      }
+    },
     scales: {
-      x: { title: { display: true, text: 'Time' } },
-      y: { title: { display: true, text: 'Glucose Level (mg/dL)' } },
+      x: { 
+        title: { 
+          display: true, 
+          text: 'Time',
+          font: {
+            size: 12
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        }
+      },
+      y: { 
+        title: { 
+          display: true, 
+          text: 'mg/dL',
+          font: {
+            size: 12
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        },
+        min: Math.max(0, Math.min(...glucoseData.map(d => parseFloat(d.glucose_mgdl))) - 20),
+        max: Math.max(...glucoseData.map(d => parseFloat(d.glucose_mgdl))) + 20
+      },
     },
   };
 
   return (
     <div className="dashboard">
-      <h2>Glucose Dashboard - {user?.name || latestReading?.user_name || 'User'}</h2>
-
-      {/* Current Reading Display */}
-      {latestReading && (
-        <div className="current-reading">
-          <div className="current-glucose">
-            <h3>Current Glucose Level</h3>
-            <div className="glucose-value">
-              <span className="value">{parseFloat(latestReading.glucose_mgdl).toFixed(1)}</span>
-              <span className="unit">mg/dL</span>
-            </div>
-            <div className="reading-info">
-              <p>Time: {new Date(latestReading.timestamp).toLocaleTimeString()}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Summary Boxes */}
-      <div className="summary-boxes">
-        <div className="summary-box">
-          <h3>Highest Reading</h3>
-          <p>{highestBloodLevel.toFixed(1)} mg/dL</p>
-          <small>{new Date(timeOfHighestSpike).toLocaleTimeString()}</small>
-        </div>
-        <div className="summary-box">
-          <h3>Lowest Reading</h3>
-          <p>{lowestBloodLevel.toFixed(1)} mg/dL</p>
-        </div>
-        <div className="summary-box">
-          <h3>Average</h3>
-          <p>{stats ? parseFloat(stats.avg_glucose).toFixed(1) : 'N/A'} mg/dL</p>
-          <small>{stats?.total_readings || 0} readings</small>
+      <div className="dashboard-header">
+        <h1>Glucose Dashboard - {user?.name || 'User'}</h1>
+        <div className="date-info">
+          {new Date().toLocaleDateString()} | Last updated: {latestReading ? new Date(latestReading.timestamp).toLocaleTimeString() : 'N/A'}
         </div>
       </div>
 
-      {/* Real-Time Glucose Readings Table */}
-      <div className="table-container">
-        <h3>Recent Glucose Readings</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Timestamp</th>
-              <th>Glucose Level</th>
-            </tr>
-          </thead>
-          <tbody>
-            {glucoseData.map((data, index) => (
-              <tr key={data.id || index}>
-                <td>{new Date(data.timestamp).toLocaleString()}</td>
-                <td>{parseFloat(data.glucose_mgdl).toFixed(1)} mg/dL</td>
-              </tr>
+      {/* Top Summary Boxes */}
+      <div className="summary-grid">
+        <div className="summary-card current">
+          <div className="card-header">Current</div>
+          <div className="card-value">{latestReading ? parseFloat(latestReading.glucose_mgdl).toFixed(1) : '--'}</div>
+          <div className="card-unit">mg/dL</div>
+        </div>
+        <div className="summary-card highest">
+          <div className="card-header">Highest</div>
+          <div className="card-value">{highestBloodLevel.toFixed(1)}</div>
+          <div className="card-unit">mg/dL</div>
+        </div>
+        <div className="summary-card lowest">
+          <div className="card-header">Lowest</div>
+          <div className="card-value">{lowestBloodLevel.toFixed(1)}</div>
+          <div className="card-unit">mg/dL</div>
+        </div>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="main-grid">
+        {/* Chart Section */}
+        <div className="chart-section">
+          <div className="chart-container">
+            <Line data={chartData} options={chartOptions} />
+          </div>
+        </div>
+
+        {/* Recent Readings Section */}
+        <div className="readings-section">
+          <h3>Recent Readings</h3>
+          <div className="readings-list">
+            {glucoseData
+              .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+              .slice(0, 8)
+              .map((data, index) => (
+              <div key={data.id || index} className="reading-item">
+                <div className="reading-info">
+                  <div className="reading-time">
+                    {new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                  <div className="reading-ppg">
+                    PPG: {data.ppg_value ? parseFloat(data.ppg_value).toFixed(2) : 'N/A'}
+                  </div>
+                </div>
+                <div className="reading-value">
+                  {parseFloat(data.glucose_mgdl).toFixed(1)} mg/dL
+                </div>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -10,8 +10,8 @@ const getReadings = (req, res) => {
       r.id,
       r.timestamp,
       r.glucose_mgdl,
+      r.ppg_value,
       r.features,
-      r.device_id,
       r.is_predicted,
       u.name as user_name
     FROM readings r 
@@ -46,15 +46,12 @@ const getLatestReading = (req, res) => {
       r.id,
       r.timestamp,
       r.glucose_mgdl,
+      r.ppg_value,
       r.features,
-      r.device_id,
       r.is_predicted,
-      u.name as user_name,
-      d.status as device_status,
-      d.last_seen as device_last_seen
+      u.name as user_name
     FROM readings r 
     JOIN users u ON r.user_id = u.id 
-    LEFT JOIN devices d ON r.device_id = d.id
     WHERE r.user_id = ? 
     ORDER BY r.timestamp DESC 
     LIMIT 1
@@ -102,18 +99,18 @@ const getTrendData = (req, res) => {
 
 // Add new reading (for testing)
 const addReading = (req, res) => {
-  const { userId, features, glucoseLevel, segmentId } = req.body;
+  const { userId, features, glucoseLevel, ppgValue } = req.body;
   
   const query = `
     INSERT INTO readings 
-    (user_id, timestamp, segment_id, features, glucose_mgdl, is_predicted) 
+    (user_id, timestamp, features, ppg_value, glucose_mgdl, is_predicted) 
     VALUES (?, NOW(), ?, ?, ?, ?)
   `;
   
   db.query(query, [
     userId, 
-    segmentId || `test_${Date.now()}`,
     JSON.stringify(features),
+    ppgValue,
     glucoseLevel,
     !!glucoseLevel
   ], (err, result) => {

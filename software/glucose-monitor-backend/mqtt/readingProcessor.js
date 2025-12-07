@@ -18,7 +18,7 @@ const axios = require('axios');
  *   segmentId: string
  * }
  */
-const processReading = async (deviceId, payload) => {
+const processReading = async (payload) => {
   try {
     // Validate payload structure
     if (!validatePayload(payload)) {
@@ -29,7 +29,7 @@ const processReading = async (deviceId, payload) => {
     const { userId, timestamp, features, segmentId } = payload;
     
     // First, store raw reading
-    const readingId = await storeRawReading(deviceId, userId, timestamp, features, segmentId);
+    const readingId = await storeRawReading(userId, timestamp, features, segmentId);
     
     // Then, attempt ML inference if enabled
     let glucoseLevel = null;
@@ -57,7 +57,7 @@ const processReading = async (deviceId, payload) => {
       await checkAndCreateAlerts(userId, readingId, glucoseLevel);
     }
 
-    console.log(`Processed reading for device ${deviceId}, user ${userId}: ${glucoseLevel ? glucoseLevel + ' mg/dL' : 'no prediction'}`);
+    console.log(`Processed reading for user ${userId}: ${glucoseLevel ? glucoseLevel + ' mg/dL' : 'no prediction'}`);
     
   } catch (error) {
     console.error('Error processing reading:', error);
@@ -84,16 +84,15 @@ const validatePayload = (payload) => {
 /**
  * Store raw reading in database
  */
-const storeRawReading = async (deviceId, userId, timestamp, features, segmentId) => {
+const storeRawReading = async (userId, timestamp, features, segmentId) => {
   const query = `
     INSERT INTO readings (
-      user_id, device_id, timestamp, segment_id, features, is_predicted
-    ) VALUES (?, ?, ?, ?, ?, FALSE)
+      user_id, timestamp, segment_id, features, is_predicted
+    ) VALUES (?, ?, ?, ?, FALSE)
   `;
   
   const [result] = await db.promise().query(query, [
     userId,
-    deviceId,
     new Date(timestamp),
     segmentId,
     JSON.stringify(features)
