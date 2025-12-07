@@ -33,7 +33,6 @@ const processReading = async (deviceId, payload) => {
     
     // Then, attempt ML inference if enabled
     let glucoseLevel = null;
-    let predictionQuality = null;
     let anomalies = null;
     let isMLPredicted = false;
 
@@ -41,12 +40,11 @@ const processReading = async (deviceId, payload) => {
       try {
         const mlResult = await callMLInference(features);
         glucoseLevel = mlResult.glucose_mgdl;
-        predictionQuality = mlResult.quality;
         anomalies = mlResult.anomalies;
         isMLPredicted = true;
         
         // Update reading with ML results
-        await updateReadingWithML(readingId, glucoseLevel, predictionQuality, anomalies);
+        await updateReadingWithML(readingId, glucoseLevel, anomalies);
         
       } catch (mlError) {
         console.error('ML inference failed:', mlError);
@@ -124,17 +122,16 @@ const callMLInference = async (features) => {
 /**
  * Update reading with ML inference results
  */
-const updateReadingWithML = async (readingId, glucoseLevel, quality, anomalies) => {
+const updateReadingWithML = async (readingId, glucoseLevel, anomalies) => {
   const query = `
     UPDATE readings 
-    SET glucose_mgdl = ?, prediction_quality = ?, anomalies = ?, 
+    SET glucose_mgdl = ?, anomalies = ?, 
         is_predicted = TRUE, model_version = ?
     WHERE id = ?
   `;
   
   await db.promise().query(query, [
     glucoseLevel,
-    quality,
     anomalies ? JSON.stringify(anomalies) : null,
     process.env.MODEL_VERSION,
     readingId
