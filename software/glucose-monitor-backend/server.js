@@ -1,45 +1,70 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-const { connectDB } = require('./config/db'); // Database connection
-const glucoseRoutes = require('./routes/glucoseRoutes'); // Glucose API routes
-const mqttClient = require('./mqtt/mqttClient'); // MQTT client for ESP32 readings
+const { connectDB } = require('./config/db');
+require('dotenv').config();
 
-// Load environment variables
-dotenv.config();
-
-
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_NAME:', process.env.DB_NAME);
-console.log('PORT:', process.env.PORT);
-
-
-// Initialize the app
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+app.use(express.json());
 
-// Connect to the database
+// Connect to database
 connectDB();
 
-// API Routes
+// Test endpoints FIRST (before other routes)
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Prick-Less Backend Server Running', 
+    status: 'healthy',
+    timestamp: new Date(),
+    version: '1.0.0'
+  });
+});
+
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'API is working - no authentication required',
+    status: 'success',
+    timestamp: new Date(),
+    endpoints: [
+      'GET /api/glucose/readings/:userId',
+      'GET /api/glucose/latest/:userId',
+      'GET /api/glucose/trends/:userId',
+      'POST /api/glucose/readings'
+    ]
+  });
+});
+
+// Import and use glucose routes
+const glucoseRoutes = require('./routes/glucoseRoutes');
 app.use('/api/glucose', glucoseRoutes);
+
+// Health check for database
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    database: 'connected',
+    timestamp: new Date()
+  });
+});
 
 // Start the MQTT client (if enabled)
 if (process.env.ENABLE_MQTT === 'true') {
   mqttClient();
+  console.log('✅ MQTT client enabled');
 } else {
-  console.log('MQTT client disabled');
+  console.log('🔌 MQTT client disabled');
 }
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`✅ No authentication required`);
+  console.log(`✅ CORS enabled for localhost:3000`);
+  console.log(`✅ Test endpoint: http://localhost:${PORT}/api/test`);
 });
