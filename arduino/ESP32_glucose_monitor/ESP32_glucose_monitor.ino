@@ -16,11 +16,11 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #define PD_PIN 32        // GPIO32 (photodiode ADC)
 
 // ---- WiFi ----
-const char* ssid = "HOME-4829";
-const char* password = "answer6189brush";
+const char* ssid = "";
+const char* password = "";
 
 // ---- MQTT ----
-const char* mqtt_server = "10.0.0.107";
+const char* mqtt_server = "";
 const int mqtt_port = 1883;
 
 // Topics
