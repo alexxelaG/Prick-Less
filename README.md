@@ -129,6 +129,10 @@ use glucose_monitor;
    cd Prick-Less
 
    ```
+   
+### Acknowledgements
+
+We would like to extend our deepest gratitude to Dr. Mark Ammar Rayes, our project advisor, for his invaluable guidance and mentorship throughout this project. We also wish to thank Dr. Wencen Wu, our professor, for providing us with the knowledge and framework necessary to successfully complete this work. Additionally, we are grateful to Dr. Gregory Courand, the GE coordinator, for his support and coordination. Finally, we acknowledge San Jose State University for providing us the opportunity and resources to carry out this project.
 
 ### Research
 
