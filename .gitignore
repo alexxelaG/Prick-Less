@@ -1,0 +1,16 @@
+# ---- Secrets ----
+.env
+.env.*
+software/**/.env
+
+# ---- Node ----
+node_modules/
+software/**/node_modules/
+
+# ---- Builds ----
+build/
+software/**/build/
+
+# ---- OS ----
+.DS_Store
+
