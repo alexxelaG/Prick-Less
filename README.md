@@ -31,35 +31,21 @@ Traditional glucose monitoring methods are invasive and can be particularly chal
 
 ## Features
 
-### Non-Invasive Sensing
-
-Uses optical methods to measure glucose levels without breaking the skin.
-
-![Non-Invasive Sensing](./images/optical-sensing.png)
-
 ### Real-Time Monitoring
 
 Delivers instantaneous glucose readings and trend analysis.
 
 ![Real-Time Dashboard](./images/Dashboard%20frontend.png)
 
-### AI-Assisted Analysis
-
-Machine learning models analyze the sensor data for accurate glucose estimation.
-
-![Project Poster](./images/U02%20Poster%20.pptx.png)
-
-### User-Friendly Interface
-
-Displays current levels, historical trends, and personalized recommendations.
-
-![User Interface](./images/user-interface.png)
-
 ### Portable & Ergonomic Design
 
 Compact design optimized for ease-of-use, especially for elderly users.
 
 ![Device Design](./images/device-design.png)
+
+### Senior Design Poster
+
+![Project Poster](./images/U02%20Poster%20.pptx.png)
 
 ## Hardware Components
 
