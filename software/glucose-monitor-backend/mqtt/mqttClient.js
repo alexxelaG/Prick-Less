@@ -19,23 +19,23 @@ function createMqttClient() {
   if (process.env.MQTT_USERNAME) options.username = process.env.MQTT_USERNAME;
   if (process.env.MQTT_PASSWORD) options.password = process.env.MQTT_PASSWORD;
 
-  console.log(`🔌 Connecting to MQTT broker at: ${brokerUrl}`);
+  console.log(`Connecting to MQTT broker at: ${brokerUrl}`);
   const client = mqtt.connect(brokerUrl, options);
 
   // When connected
   client.on('connect', () => {
-    console.log('✅ Connected to Mosquitto MQTT broker');
+    console.log('Connected to Mosquitto MQTT broker');
 
     // Subscribe to glucose topic
     client.subscribe('prickless/glucose', { qos: 1 }, (err) => {
-      if (err) console.error('❌ Failed to subscribe to prickless/glucose', err);
-      else console.log('📡 Subscribed to topic: prickless/glucose');
+      if (err) console.error('Failed to subscribe to prickless/glucose', err);
+      else console.log('Subscribed to topic: prickless/glucose');
     });
 
-    // Subscribe to PPG topic
+    // Subscribe to PPG topic (legacy/alternative)
     client.subscribe('prickless/ppg', { qos: 1 }, (err) => {
-      if (err) console.error('❌ Failed to subscribe to prickless/ppg', err);
-      else console.log('📡 Subscribed to topic: prickless/ppg');
+      if (err) console.error('Failed to subscribe to prickless/ppg', err);
+      else console.log('Subscribed to topic: prickless/ppg');
     });
   });
 

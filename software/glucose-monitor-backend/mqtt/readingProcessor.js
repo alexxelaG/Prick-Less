@@ -19,7 +19,7 @@ const { db } = require('../config/db');
  */
 const processReading = async (payload) => {
   try {
-    console.log('🔄 Processing reading:', payload);
+    console.log('Processing reading:', payload);
     
     // Handle simple format from ESP32
     const userId = payload.user_id || 1; // Default to user 1 for demo
@@ -29,17 +29,17 @@ const processReading = async (payload) => {
     
     // Validate required data
     if (!ppgValue || typeof ppgValue !== 'number') {
-      console.error('❌ Invalid payload: ppg_value is required and must be a number');
+      console.error('Invalid payload: ppg_value is required and must be a number');
       return;
     }
 
     // Store the reading in database
     const readingId = await storeReading(userId, timestamp, ppgValue, glucoseLevel);
     
-    console.log(`✅ Stored reading for user ${userId}: PPG=${ppgValue}${glucoseLevel ? `, Glucose=${glucoseLevel} mg/dL` : ''}`);
+    console.log(`Stored reading for user ${userId}: PPG=${ppgValue}${glucoseLevel ? `, Glucose=${glucoseLevel} mg/dL` : ''}`);
     
   } catch (error) {
-    console.error('❌ Error processing reading:', error);
+    console.error('Error processing reading:', error);
   }
 };
 

@@ -4,7 +4,7 @@
 
 A non-invasive glucose monitoring system using ESP32, optical sensors, and real-time data visualization.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 16+ and npm
@@ -65,7 +65,7 @@ ESP32 Sensor → WiFi → MQTT Broker → Backend API → MySQL → Frontend Das
 - **Database**: MySQL for data persistence
 - **Communication**: MQTT for device-to-server messaging
 
-## 📡 API Endpoints
+## API Endpoints
 
 - `GET /` - Health check
 - `GET /api/test` - API test endpoint
@@ -74,7 +74,7 @@ ESP32 Sensor → WiFi → MQTT Broker → Backend API → MySQL → Frontend Das
 - `GET /api/glucose/latest/:userId` - Get latest reading
 - `GET /api/glucose/trends/:userId` - Get glucose trends
 
-## 🔧 Hardware Setup
+## Hardware Setup
 
 ### ESP32 Configuration
 
@@ -121,7 +121,7 @@ Prick-Less/
 └── setup-database.sh         # Database initialization
 ```
 
-## 🛠️ Development
+## Development
 
 ### Backend Development
 ```bash

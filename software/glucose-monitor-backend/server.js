@@ -56,8 +56,8 @@ app.get('/api/health', (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-  console.log(`✅ No authentication required`);
-  console.log(`✅ CORS enabled for localhost:3000`);
-  console.log(`✅ Test endpoint: http://localhost:${PORT}/api/test`);
+  console.log(`Server running on port ${PORT}`);
+  console.log(`No authentication required`);
+  console.log(`CORS enabled for localhost:3000`);
+  console.log(`Test endpoint: http://localhost:${PORT}/api/test`);
 });

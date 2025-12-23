@@ -12,12 +12,12 @@ const db = mysql.createConnection({
 const connectDB = () => {
   db.connect((err) => {
     if (err) {
-      console.error('❌ Database connection failed:', err.message);
-      console.error('📋 Check your .env file configuration');
+      console.error('Database connection failed:', err.message);
+      console.error('Check your .env file configuration');
       // Don't exit, let the app continue without database for now
-      console.log('⚠️  Continuing without database connection...');
+      console.log('Continuing without database connection...');
     } else {
-      console.log('✅ Connected to MySQL database');
+      console.log('Connected to MySQL database');
     }
   });
 };
