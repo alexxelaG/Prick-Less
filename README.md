@@ -1,53 +1,195 @@
-# Prick-Less
+# Prick-Less 🩸➡️📱
 
-Because nobody likes PRICKS
+> **Because nobody likes PRICKS**
 
-## Non-Invasive Glucose Monitoring System
+A non-invasive glucose monitoring system using ESP32, optical sensors, and real-time data visualization.
 
-A cutting-edge project aimed at developing a non-invasive, AI-assisted device to monitor blood glucose levels painlessly. This system leverages optical sensing with a photoresistor and LED, combined with machine learning to estimate glucose levels and provide actionable lifestyle insights.
+## 🚀 Quick Start
 
-## Table of Contents
+### Prerequisites
+- Node.js 16+ and npm
+- MySQL Server
+- MQTT Broker (Mosquitto)
+- ESP32 development board
 
-- [Overview](#overview)
-- [Background](#background)
-- [Features](#features)
-- [Hardware Components](#hardware-components)
-- [Software Components](#software-components)
-- [Design & Methodology](#design--methodology)
-- [Setup & Installation](#setup--installation)
-- [Research](#research)
+### Installation
 
-## Overview
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/Prick-Less.git
+   cd Prick-Less
+   ```
 
-The Non-Invasive Glucose Monitoring System is designed to offer a pain-free alternative to traditional blood glucose meters and continuous subcutaneous monitors. By using an LED light and a photoresistor placed on either side of a finger, the device measures light absorption changes through the tissue. This information is then processed with machine learning algorithms to determine glucose levels and track lifestyle factors that influence blood sugar.
+2. **Set up the database**
+   ```bash
+   ./setup-database.sh
+   ```
 
-## Background
+3. **Configure environment**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database credentials
+   ```
 
-Traditional glucose monitoring methods are invasive and can be particularly challenging for elderly patients and those with chronic conditions like diabetes. This project is driven by the need for a non-invasive solution that:
+4. **Install and start backend**
+   ```bash
+   cd software/glucose-monitor-backend
+   npm install
+   npm start
+   ```
 
-- Reduces discomfort and pain associated with finger pricking or implanting sensors.
-- Provides continuous, real-time monitoring of blood glucose levels.
-- Integrates actionable insights based on lifestyle data to better manage diabetes.
+5. **Install and start frontend**
+   ```bash
+   cd software/frontend/pricklessui
+   npm install
+   npm start
+   ```
 
-## Features
+6. **Test the system**
+   ```bash
+   ./test_backend.sh
+   ./test_mqtt.sh
+   ```
 
-- **Non-Invasive Sensing:** Uses optical methods to measure glucose levels without breaking the skin.
-- **Real-Time Monitoring:** Delivers instantaneous glucose readings and trend analysis.
-- **AI-Assisted Analysis:** Machine learning models analyze the sensor data for accurate glucose estimation.
-- **User-Friendly Interface:** Displays current levels, historical trends, and personalized recommendations.
-- **Portable & Ergonomic Design:** Compact design optimized for ease-of-use, especially for elderly users.
+## 🏗️ System Architecture
 
-## Hardware Components
+```
+ESP32 Sensor → WiFi → MQTT Broker → Backend API → MySQL → Frontend Dashboard
+```
 
-- **LED Light Source:**
-  - Selected for its stability and suitable wavelength (e.g., near-infrared) that interacts with interstitial fluid.
-- **Photoresistor/Photodiode:**
-  - Sensitive enough to detect variations in transmitted light after passing through the finger.
-- **Signal Conditioning Circuitry:**
-  - Includes amplification and filtering stages to manage noise and ambient light interference.
-- **Analog-to-Digital Converter (ADC):**
-  - High-resolution ADC for accurate digitization of sensor data.
-- **Microcontroller/Embedded System:**
+### Key Components
+
+- **Hardware**: ESP32 with LED/photoresistor for optical glucose sensing
+- **Backend**: Node.js/Express API with MQTT integration
+- **Frontend**: React dashboard for real-time monitoring
+- **Database**: MySQL for data persistence
+- **Communication**: MQTT for device-to-server messaging
+
+## 📡 API Endpoints
+
+- `GET /` - Health check
+- `GET /api/test` - API test endpoint
+- `GET /api/health` - Database health check
+- `GET /api/glucose/readings/:userId` - Get user readings
+- `GET /api/glucose/latest/:userId` - Get latest reading
+- `GET /api/glucose/trends/:userId` - Get glucose trends
+
+## 🔧 Hardware Setup
+
+### ESP32 Configuration
+
+1. Connect LED and photoresistor to ESP32
+2. Update WiFi credentials in `arduino/ESP32_glucose_monitor/ESP32_glucose_monitor.ino`
+3. Set MQTT broker IP address
+4. Upload code to ESP32
+
+### MQTT Topics
+
+- `prickless/glucose` - Glucose readings from ESP32
+
+### Message Format
+
+```json
+{
+  "ppg_value": 512,
+  "timestamp": "2024-01-01T12:00:00Z",
+  "user_id": 1
+}
+```
+
+## 📊 Features
+
+- **Real-time Monitoring**: Live glucose level tracking
+- **Data Visualization**: Interactive charts and trends
+- **Device Integration**: Seamless ESP32 connectivity
+- **No Authentication**: Simplified for development/demo
+- **Historical Data**: Store and analyze past readings
+
+## 📁 Project Structure
+
+```
+Prick-Less/
+├── arduino/                    # ESP32 firmware
+├── database/                   # Database schema
+├── software/
+│   ├── glucose-monitor-backend/ # Node.js API server
+│   ├── frontend/pricklessui/   # React dashboard
+│   ├── data-collection/        # Data analysis notebooks
+│   └── models/                 # ML models
+├── test_backend.sh            # Backend testing script
+├── test_mqtt.sh              # MQTT testing script
+└── setup-database.sh         # Database initialization
+```
+
+## 🛠️ Development
+
+### Backend Development
+```bash
+cd software/glucose-monitor-backend
+npm run dev  # Start with nodemon
+```
+
+### Frontend Development
+```bash
+cd software/frontend/pricklessui
+npm start    # Start React dev server
+```
+
+### Testing
+```bash
+# Test backend API
+./test_backend.sh
+
+# Test MQTT connectivity
+./test_mqtt.sh
+```
+
+## 🚨 Troubleshooting
+
+**Database Connection Issues:**
+- Verify MySQL is running: `brew services start mysql`
+- Check credentials in `.env` file
+- Run database setup: `./setup-database.sh`
+
+**MQTT Connection Issues:**
+- Start Mosquitto: `brew services start mosquitto`
+- Check broker IP in ESP32 code
+- Verify port 1883 is accessible
+
+**ESP32 Issues:**
+- Check WiFi credentials
+- Verify MQTT broker IP address
+- Monitor serial output for debug info
+
+## 📚 Documentation
+
+- [Complete Setup Guide](README_SETUP.md)
+- [MQTT Setup Guide](MQTT_SETUP_GUIDE.md)
+- [Simplifications Made](SIMPLIFICATIONS.md)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the ISC License.
+
+## 🎯 Future Enhancements
+
+- Machine learning for glucose prediction
+- User authentication system  
+- Mobile app development
+- Cloud deployment
+- Data export functionality
+
+---
+
+**Built with ❤️ for painless health monitoring**
   - Handles data acquisition, controls the LED, and interfaces with the machine learning software.
 - **Ergonomic Finger Clip:**
   - A custom-designed housing ensuring consistent sensor placement and reliable measurements.

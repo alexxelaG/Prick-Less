@@ -53,8 +53,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 🚫 REMOVE MQTT — NO MQTT ANYMORE
-
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

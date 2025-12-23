@@ -6,11 +6,70 @@ software/**/.env
 # ---- Node ----
 node_modules/
 software/**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
 
 # ---- Builds ----
 build/
+dist/
 software/**/build/
+software/**/dist/
+
+# ---- Logs ----
+*.log
+logs/
 
 # ---- OS ----
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ---- Editor ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- Backup files ----
+*.backup
+*.bak
+*.tmp
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.env
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---- Jupyter Notebook ----
+.ipynb_checkpoints
+
+# ---- Data files ----
+*.zip
+*.rar
+*.tar.gz
+*.csv
+# Keep essential CSV files by adding exceptions if needed
+
+# ---- Coverage ----
+coverage/
+*.lcov
+
+# ---- Testing ----
+*.tgz
+*.tar.gz
 
